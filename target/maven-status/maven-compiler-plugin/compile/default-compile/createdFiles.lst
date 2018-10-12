@@ -1,0 +1,3 @@
+com\servlets\MessageAction.class
+com\domain\MessageRepository.class
+com\domain\Message.class
