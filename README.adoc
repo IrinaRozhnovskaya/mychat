@@ -1,0 +1,1 @@
+= mychat image:https://travis-ci.org/IrinaRozhnovskaya/mychat.svg?branch=MC-3["Build Status", link="https://travis-ci.org/IrinaRozhnovskaya/mychat"]
