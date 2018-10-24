@@ -16,7 +16,7 @@
 </head>
 <body>
 <script>
-    document.location.pathname += 'messages';
+    document.location.pathname += 'message';
 </script>
 </body>
 </html>

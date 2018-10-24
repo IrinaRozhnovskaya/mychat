@@ -6,14 +6,14 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
     <constant name="struts.devMode" value="false"/>
-
-    <package name="message" namespace="message" extends="struts-default">
+    <package name="index" namespace="" extends="struts-default">
+    <!--<package name="message" namespace="message" extends="struts-default">-->
         <action name="message" class="com.message.MessageAction">
             <result>message.jsp</result>
         </action>
-    </package>
+    <!--</package>-->
 
-    <package name="index" namespace="" extends="struts-default">
+    <!--<package name="index" namespace="" extends="struts-default">-->
         <action name="index" class="com.message.MessageAction">
             <result>message.jsp</result>
         </action>

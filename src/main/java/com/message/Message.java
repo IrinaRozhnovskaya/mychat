@@ -22,6 +22,8 @@ public class Message implements Comparable<Message> {
         return from;
     }
 
+    public String getBody() {return body;}
+
     public Date getCreatedAt() {
         return createdAt;
     }
