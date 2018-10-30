@@ -1,9 +1,12 @@
 package com.message;
 
+import com.message.domain.Message;
+import com.message.domain.MessageRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -42,7 +45,7 @@ public class MessageRepositoryTest {
     private void then_findAllOrderByCreatedAt_method_returns_list_with_size(int size) {
         // then
         assertThat("Unexpected messages number in repository",
-                messageRepository.findAllOrderByCreatedAt().size(), equalTo(size));
+                messageRepository.findAllOrderByCreatedAtDesc().size(), equalTo(size));
     }
 
     private void when_message_saved_with_$from_and_$body(String from, String body) {
@@ -52,18 +55,20 @@ public class MessageRepositoryTest {
 
     private void given_empty_messages_database() {
         assertThat("Unexpected messages number in repository",
-                messageRepository.findAllOrderByCreatedAt().size(), equalTo(0));
+                messageRepository.findAllOrderByCreatedAtDesc().size(), equalTo(0));
     }
 
     // should_sort_messages_in_desc_order
 
     private void expect_findAllOrderByCreatedAt_method_returns_list_in_given_order() {
-        final Set<Message> messages = messageRepository.findAllOrderByCreatedAt();
+        final Set<List<Message>> messages = messageRepository.findAllOrderByCreatedAtDesc();
         int ordered = messages.size() - 1;
-        for (Message message : messages) {
-            final String senderName = message.getFrom();
-            assertThat("message was received in wrong order", senderName, equalTo("" + ordered));
-            ordered--;
+        for (List<Message> message1 : messages) {
+            for (Message message: message1) {
+                final String senderName = message.getFrom();
+                assertThat("message was received in wrong order", senderName, equalTo("" + ordered));
+                ordered--;
+            }
         }
     }
 
