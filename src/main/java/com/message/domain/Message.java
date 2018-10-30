@@ -1,21 +1,24 @@
-package com.message;
+package com.message.domain;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Message implements Comparable<Message> {
 
+    private UUID id;
     private String from;
     private String body;
     private Date createdAt;
 
-    public Message(final String from, final String body, final Date createdAt) {
+    public Message(final UUID id, final String from, final String body, final Date createdAt) {
+        this.id = id;
         this.from = from;
         this.body = body;
         this.createdAt = createdAt;
     }
 
     public Message(final String from, final String body) {
-        this(from, body, new Date());
+        this(UUID.randomUUID(),from, body, new Date());
     }
 
     public String getFrom() {
@@ -26,6 +29,10 @@ public class Message implements Comparable<Message> {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     @Override

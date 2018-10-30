@@ -8,14 +8,14 @@
     <constant name="struts.devMode" value="false"/>
     <package name="index" namespace="" extends="struts-default">
     <!--<package name="message" namespace="message" extends="struts-default">-->
-        <action name="message" class="com.message.MessageAction">
-            <result>message.jsp</result>
+        <action name="message" class="com.actions.MessageAction">
+            <result>index.jsp</result>
         </action>
     <!--</package>-->
 
     <!--<package name="index" namespace="" extends="struts-default">-->
-        <action name="index" class="com.message.MessageAction">
-            <result>message.jsp</result>
+        <action name="index" class="com.actions.MessageAction">
+            <result>index.jsp</result>
         </action>
     </package>
 </struts>
