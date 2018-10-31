@@ -1,10 +1,16 @@
 package com.message.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MessageResponse {
 
-    final String from, body, when;
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
 
-    public MessageResponse(String from, String body, String when) {
+    final String from, body;
+    final Date when;
+
+    public MessageResponse(String from, String body, Date when) {
         this.from = from;
         this.body = body;
         this.when = when;
@@ -15,7 +21,7 @@ public class MessageResponse {
     }
 
     public String getWhen() {
-        return when;
+        return format.format(when);
     }
 
     public String getFrom() {

@@ -27,6 +27,8 @@
 <div>
     <s:form cssClass="inline center-align">
         <s:textfield autofocus="autofocus"
+                     id="from" name="from" type="text" />
+        <s:textfield autofocus="autofocus"
                      id="body" name="body" type="text" />
         <s:submit cssClass="hide"/>
     </s:form>

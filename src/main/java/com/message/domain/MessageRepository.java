@@ -2,25 +2,20 @@ package com.message.domain;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
-import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Collections.unmodifiableSet;
+import static java.util.Collections.unmodifiableSortedSet;
 
 @Singleton
-public class MessageRepository implements Serializable {
+public class MessageRepository {
 
     private Map<String, List<Message>> db;
 
     @PostConstruct
     public void init() {
         db = new ConcurrentHashMap<>();
-    }
-
-    public Set<List<Message>> findAllOrderByCreatedAtDesc() {
-        return unmodifiableSet(
-                new TreeSet<>(db.values()));
     }
 
     public void save(final Message message) {
@@ -32,5 +27,15 @@ public class MessageRepository implements Serializable {
         final List<Message> messages = db.get(key);
         messages.add(message);
         db.put(key, messages);
+    }
+
+    public Set<Message> findAllOrderByCreatedAtDesc() {
+        final ArrayList<Message> result = new ArrayList<>();
+        for (List<Message> messages : db.values()) {
+            for (Message message : messages) {
+                result.add(message);
+            }
+        }
+        return unmodifiableSortedSet(new TreeSet<>(result));
     }
 }

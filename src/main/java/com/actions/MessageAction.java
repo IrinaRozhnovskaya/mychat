@@ -1,34 +1,28 @@
 package com.actions;
 
-import com.message.domain.Message;
-import com.message.domain.MessageRepository;
 import com.message.services.MessageRequest;
+import com.message.services.MessageResponse;
 import com.message.services.MessageService;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.interceptor.SessionAware;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+@Stateless
+public class MessageAction extends ActionSupport {
 
-@SessionScoped
-public class MessageAction extends ActionSupport implements SessionAware {
+    MessageService messageService;
+
+    public MessageAction() { }
 
     @Inject
-    MessageRepository messageRepository;
+    public MessageAction(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     String from, body;
-    Map<String, Object> session;
-
-    @Override
-    public void setSession(Map<String, Object> session) {
-        this.session = session;
-    }
 
     public void setFrom(final String from) {
         this.from = from;
@@ -38,23 +32,15 @@ public class MessageAction extends ActionSupport implements SessionAware {
         this.body = body;
     }
 
-    void sendMessage() {
-        if (body == null) return;
-        if (body.trim().equals("")) return;
-
-        final Object key = session.values();
-
-        messageRepository.save(new Message(String.valueOf(key), body));
-    }
-
     @Override
     @Action("/*")
     public String execute() {
-        sendMessage();
+        final MessageRequest request = MessageRequest.of(from, body);
+        messageService.sendMessage(request);
         return "index";
     }
 
-    public Set<List<Message>> getMessages() {
-        return messageRepository.findAllOrderByCreatedAtDesc();
+    public List<MessageResponse> getMessages() {
+        return messageService.findMessagesInDescendOrder();
     }
 }

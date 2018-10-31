@@ -1,21 +1,23 @@
 package com.message.services;
 
-import java.util.Map;
-
 public class MessageRequest {
-    final String messageBody;
-    final Map<String, Object> metadata;
 
-    public MessageRequest(String messageBody, Map<String, Object> metadata) {
+    final String sender, messageBody;
+
+    public static MessageRequest of(String sender, String messageBody) {
+        return new MessageRequest(messageBody, sender);
+    }
+
+    MessageRequest(String messageBody, String sender) {
         this.messageBody = messageBody;
-        this.metadata = metadata;
+        this.sender = sender;
     }
 
     public String getMessageBody() {
         return messageBody;
     }
 
-    public Map<String, Object> getMetadata() {
-        return metadata;
+    public String getSender() {
+        return sender;
     }
 }

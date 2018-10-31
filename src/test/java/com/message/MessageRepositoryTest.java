@@ -5,8 +5,6 @@ import com.message.domain.MessageRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -59,16 +57,13 @@ public class MessageRepositoryTest {
     }
 
     // should_sort_messages_in_desc_order
-
     private void expect_findAllOrderByCreatedAt_method_returns_list_in_given_order() {
-        final Set<List<Message>> messages = messageRepository.findAllOrderByCreatedAtDesc();
+        final Set<Message> messages = messageRepository.findAllOrderByCreatedAtDesc();
         int ordered = messages.size() - 1;
-        for (List<Message> message1 : messages) {
-            for (Message message: message1) {
-                final String senderName = message.getFrom();
-                assertThat("message was received in wrong order", senderName, equalTo("" + ordered));
-                ordered--;
-            }
+        for (Message message : messages) {
+            final String senderName = message.getFrom();
+            assertThat("message was received in wrong order", senderName, equalTo("" + ordered));
+            ordered--;
         }
     }
 
