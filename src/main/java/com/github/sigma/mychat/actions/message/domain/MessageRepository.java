@@ -1,11 +1,10 @@
-package com.message.domain;
+package com.github.sigma.mychat.actions.message.domain;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.util.Collections.unmodifiableSet;
 import static java.util.Collections.unmodifiableSortedSet;
 
 @Singleton

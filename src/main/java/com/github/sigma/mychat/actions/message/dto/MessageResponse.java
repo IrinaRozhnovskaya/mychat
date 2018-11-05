@@ -1,4 +1,4 @@
-package com.message.services;
+package com.github.sigma.mychat.actions.message.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

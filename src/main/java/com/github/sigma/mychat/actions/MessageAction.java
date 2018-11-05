@@ -1,8 +1,8 @@
-package com.actions;
+package com.github.sigma.mychat.actions;
 
-import com.message.services.MessageRequest;
-import com.message.services.MessageResponse;
-import com.message.services.MessageService;
+import com.github.sigma.mychat.actions.message.dto.MessageRequest;
+import com.github.sigma.mychat.actions.message.dto.MessageResponse;
+import com.github.sigma.mychat.actions.message.MessageService;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.convention.annotation.Action;
 

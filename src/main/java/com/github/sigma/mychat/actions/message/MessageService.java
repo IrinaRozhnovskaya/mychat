@@ -1,7 +1,9 @@
-package com.message.services;
+package com.github.sigma.mychat.actions.message;
 
-import com.message.domain.Message;
-import com.message.domain.MessageRepository;
+import com.github.sigma.mychat.actions.message.domain.Message;
+import com.github.sigma.mychat.actions.message.domain.MessageRepository;
+import com.github.sigma.mychat.actions.message.dto.MessageRequest;
+import com.github.sigma.mychat.actions.message.dto.MessageResponse;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

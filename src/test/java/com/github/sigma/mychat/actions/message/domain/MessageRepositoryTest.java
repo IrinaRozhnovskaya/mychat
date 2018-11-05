@@ -1,10 +1,9 @@
-package com.message;
+package com.github.sigma.mychat.actions.message.domain;
 
-import com.message.domain.Message;
-import com.message.domain.MessageRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;

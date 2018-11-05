@@ -1,7 +1,8 @@
-package com.message.services;
+package com.github.sigma.mychat.actions.message.dto;
 
-import com.message.domain.Message;
-import com.message.domain.MessageRepository;
+import com.github.sigma.mychat.actions.message.MessageService;
+import com.github.sigma.mychat.actions.message.domain.Message;
+import com.github.sigma.mychat.actions.message.domain.MessageRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.filter;
 
 public class MessageServiceTest {
 
@@ -39,20 +41,23 @@ public class MessageServiceTest {
     @Test
     public void findMessagesInDescendOrder() {
         // given:
-        assertThat(messageService.findMessagesInDescendOrder()).isEmpty();
-        // with:
-        messageService.sendMessage(MessageRequest.of("qwe", "1qqqe"));
-        // and:
-        final Set<Message> actual = repository.findAllOrderByCreatedAtDesc();
-        assertThat(actual).isNotEmpty();
-        // where:
         final int expected = 1;
-        assertThat(actual.size()).isEqualTo(expected);
+        given_messages_in_database_with_$expected_amount_of_messages(expected);
 
         // when:
         final List<MessageResponse> result = messageService.findMessagesInDescendOrder();
 
         // then:
         assertThat(result.size()).isEqualTo(expected);
+    }
+
+    private void given_messages_in_database_with_$expected_amount_of_messages(int expected) {
+        // given:
+        assertThat(messageService.findMessagesInDescendOrder()).isEmpty();
+        // with:
+        repository.save(new Message("qwe", "1qqqe"));
+        // and:
+        final Set<Message> actual = repository.findAllOrderByCreatedAtDesc();
+        assertThat(actual.size()).isEqualTo(expected);
     }
 }

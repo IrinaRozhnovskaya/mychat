@@ -1,4 +1,4 @@
-package com.message.domain;
+package com.github.sigma.mychat.actions.message.domain;
 
 import java.util.Date;
 import java.util.UUID;

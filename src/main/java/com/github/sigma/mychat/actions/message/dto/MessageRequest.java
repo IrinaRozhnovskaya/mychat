@@ -1,4 +1,4 @@
-package com.message.services;
+package com.github.sigma.mychat.actions.message.dto;
 
 public class MessageRequest {
 
@@ -8,7 +8,7 @@ public class MessageRequest {
         return new MessageRequest(messageBody, sender);
     }
 
-    MessageRequest(String messageBody, String sender) {
+    private MessageRequest(String messageBody, String sender) {
         this.messageBody = messageBody;
         this.sender = sender;
     }
