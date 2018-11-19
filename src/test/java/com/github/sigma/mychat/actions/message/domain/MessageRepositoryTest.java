@@ -40,13 +40,11 @@ public class MessageRepositoryTest {
 
     // should_save_message
     private void then_findAllOrderByCreatedAt_method_returns_list_with_size(int size) {
-        // then
         assertThat("Unexpected messages number in repository",
                 messageRepository.findAllOrderByCreatedAtDesc().size(), equalTo(size));
     }
 
     private void when_message_saved_with_$from_and_$body(String from, String body) {
-        // when
         messageRepository.save(new Message(from, body));
     }
 
@@ -55,7 +53,6 @@ public class MessageRepositoryTest {
                 messageRepository.findAllOrderByCreatedAtDesc().size(), equalTo(0));
     }
 
-    // should_sort_messages_in_desc_order
     private void expect_findAllOrderByCreatedAt_method_returns_list_in_given_order() {
         final Set<Message> messages = messageRepository.findAllOrderByCreatedAtDesc();
         int ordered = messages.size() - 1;
