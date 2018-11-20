@@ -3,73 +3,75 @@ package com.github.sigma.mychat.actions.message.dto;
 import com.github.sigma.mychat.actions.message.MessageService;
 import com.github.sigma.mychat.actions.message.domain.Message;
 import com.github.sigma.mychat.actions.message.domain.MessageRepository;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+@RunWith(MockitoJUnitRunner.class)
 public class MessageServiceMockTest {
 
-    private MessageService messageService;
-    private MessageRepository repository;
+  @Mock
+  private MessageRepository repository;
 
-    @Before
-    public void setUp() {
-        repository = mock(MessageRepository.class);
-        messageService = new MessageService(repository);
-    }
+  @InjectMocks
+  private MessageService messageService;
 
-    @Test
-    public void sendMessage() {
-        // given:
-        Set<Message> emptyMessageSet = new TreeSet<>();
-        Message message = new Message("qwe", "1qqqe");
-        Set<Message> messageSet = new TreeSet<>();
-        messageSet.add(message);
-        when(repository.findAllOrderByCreatedAtDesc()).thenReturn(emptyMessageSet).thenReturn(messageSet);
-        assertThat(repository.findAllOrderByCreatedAtDesc()).isEmpty();
+  @Test
+  public void should_send_valid_message() {
 
-        // when:
-        messageService.sendMessage(MessageRequest.of("qwe", "1qqqe"));
+    // given
+    MessageRequest invalidMessage = null;
+    // when
+    messageService.sendMessage(invalidMessage);
+    // then
+    verify(repository, times(0)).save(any(Message.class));
 
-        // then:
-        assertThat(repository.findAllOrderByCreatedAtDesc()).isNotEmpty();
-        // and:
-        assertThat(repository.findAllOrderByCreatedAtDesc().size()).isEqualTo(1);
+    // and
+    invalidMessage = MessageRequest.of(null, "1qqqe");
+    messageService.sendMessage(invalidMessage);
+    verify(repository, times(0)).save(any(Message.class));
+    //verify(repository).save(any(Message.class));
+    //reset(messageService);
+    //reset(repository);
 
-    }
+    invalidMessage = MessageRequest.of(null, null);
+    messageService.sendMessage(invalidMessage);
+    verify(repository, times(0)).save(any(Message.class));
 
-    @Test
-    public void findMessagesInDescendOrder() {
-        // given:
-        final int expected = 1;
-        given_messages_in_database_with_$expected_amount_of_messages(expected);
+    invalidMessage = MessageRequest.of("ololo", null);
+    messageService.sendMessage(invalidMessage);
+    verify(repository, times(0)).save(any(Message.class));
 
-        // when:
-        final List<MessageResponse> result = messageService.findMessagesInDescendOrder();
+    // finally
+    MessageRequest validMessage = MessageRequest.of("qwe", "1qqqe");
+    messageService.sendMessage(validMessage);
+    then(repository).should(times(1)).save(any(Message.class));
+  }
 
-        // then:
-        assertThat(result.size()).isEqualTo(expected);
-    }
+  @Test
+  public void findMessagesInDescendOrder() {
+    // given:
+    Message message = new Message("qwe", "1qqqe");
+    Set<Message> messageSet = new TreeSet<>();
+    messageSet.add(message);
+    // given:
+    given(repository.findAllOrderByCreatedAtDesc()).willReturn(messageSet);
+    // with:
+    repository.save(new Message("qwe", "1qqqe"));
 
-    private void given_messages_in_database_with_$expected_amount_of_messages(int expected) {
-        Message message = new Message("qwe", "1qqqe");
-        Set<Message> messageSet = new TreeSet<>();
-        messageSet.add(message);
+    // when:
+    messageService.findMessagesInDescendOrder();
 
-        // given:
-        assertThat(messageService.findMessagesInDescendOrder()).isEmpty();
-
-        // with:
-        doNothing().when(repository).save(new Message("qwe","1qqqe"));
-        repository.save(new Message("qwe", "1qqqe"));
-        // and:
-        when(repository.findAllOrderByCreatedAtDesc()).thenReturn(messageSet);
-        final Set<Message> actual = repository.findAllOrderByCreatedAtDesc();
-        assertThat(actual.size()).isEqualTo(expected);
-    }
+    then(repository).should(times(1)).findAllOrderByCreatedAtDesc();
+  }
 }
 
