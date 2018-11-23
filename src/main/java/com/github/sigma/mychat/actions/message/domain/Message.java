@@ -1,51 +1,70 @@
 package com.github.sigma.mychat.actions.message.domain;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
+import static com.github.sigma.mychat.actions.message.domain.Message.FIND_ALL;
+import static javax.persistence.TemporalType.TIMESTAMP;
+
+@Entity
+@Table(name = "messages")
+@NamedQueries({
+    @NamedQuery(name = FIND_ALL, query = "SELECT m FROM Message m"),
+})
 public class Message implements Comparable<Message> {
 
-    private UUID id;
-    private String from;
-    private String body;
-    private Date createdAt;
+  public static final String FIND_ALL = "Message.findAll";
 
-    public Message(final UUID id, final String from, final String body, final Date createdAt) {
-        this.id = id;
-        this.from = from;
-        this.body = body;
-        this.createdAt = createdAt;
-    }
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    public Message(final String from, final String body) {
-        this(UUID.randomUUID(),from, body, new Date());
-    }
+  @Column(name = "sender")
+  private String from;
+  private String body;
 
-    public String getFrom() {
-        return from;
-    }
+  @Temporal(TIMESTAMP)
+  private Date createdAt;
 
-    public String getBody() {return body;}
+  protected Message() { }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+  public Message(final String from, final String body) {
+    this.from = from;
+    this.body = body;
+  }
 
-    public UUID getId() {
-        return id;
-    }
+  public String getFrom() {
+    return from;
+  }
 
-    @Override
-    public int compareTo(final Message other) {
-        return -this.createdAt.compareTo(other.getCreatedAt());
-    }
+  public String getBody() {
+    return body;
+  }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                ", from='" + from + '\'' +
-                ", body='" + body + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
-    }
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  @Override
+  public int compareTo(final Message other) {
+    return -this.createdAt.compareTo(other.getCreatedAt());
+  }
+
+  @Override
+  public String toString() {
+    return "Message{" +
+        ", from='" + from + '\'' +
+        ", body='" + body + '\'' +
+        ", createdAt=" + createdAt +
+        '}';
+  }
+
+  @PrePersist
+  public void onSave() {
+    createdAt = new Date();
+  }
 }

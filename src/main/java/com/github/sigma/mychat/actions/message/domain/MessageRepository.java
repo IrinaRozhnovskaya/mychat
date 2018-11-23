@@ -1,40 +1,44 @@
 package com.github.sigma.mychat.actions.message.domain;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Singleton;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import static com.github.sigma.mychat.actions.message.domain.Message.FIND_ALL;
+import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableSortedSet;
 
-@Singleton
+@ApplicationScoped
 public class MessageRepository {
 
-    private Map<String, List<Message>> db;
+  public static final Integer PAGE_SIZE = 20;
 
-    @PostConstruct
-    public void init() {
-        db = new ConcurrentHashMap<>();
-    }
+  @PersistenceContext
+  EntityManager em;
 
-    public void save(final Message message) {
-        final String key = message.getFrom();
-        final List<Message> maybeMessages = db.get(key);
-        if (maybeMessages == null) {
-            db.put(key, new ArrayList<Message>());
-        }
-        final List<Message> messages = db.get(key);
-        messages.add(message);
-        db.put(key, messages);
+  @PostConstruct
+  public void initTestData() {
+    List<String> strings = asList("ololo", "trololo");
+    for (String string : strings) {
+      em.persist(new Message(string, "a message: " + string));
     }
+  }
 
-    public Set<Message> findAllOrderByCreatedAtDesc() {
-        final ArrayList<Message> result = new ArrayList<>();
-        for (List<Message> messages : db.values()) {
-            for (Message message : messages) {
-                result.add(message);
-            }
-        }
-        return unmodifiableSortedSet(new TreeSet<>(result));
-    }
+  public void save(final Message message) {
+    em.persist(message);
+  }
+
+  public Set<Message> findAllOrderByCreatedAtDesc() {
+    TypedQuery<Message> query = em.createNamedQuery(FIND_ALL, Message.class)
+                                  .setMaxResults(PAGE_SIZE);
+    List<Message> resultList = query.getResultList();
+    return unmodifiableSortedSet(new TreeSet<>(resultList));
+  }
 }

@@ -17,4 +17,12 @@
         <filter-name>struts2</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <data-source>
+        <name>java:global/MyChatDS</name>
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+        <url>jdbc:h2:mem:my-chat;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</url>
+        <user>sa</user>
+        <password>sa</password>
+    </data-source>
 </web-app>

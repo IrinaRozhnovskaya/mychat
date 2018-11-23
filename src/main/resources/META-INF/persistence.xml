@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+  <persistence-unit name="ololo" transaction-type="JTA">
+    <jta-data-source>java:global/MyChatDS</jta-data-source>
+    <properties>
+      <!-- see: http://datanucleus.org/products/accessplatform_4_1/jpa/emf.html#Standard_JPA_Properties -->
+      <!--<property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+      <!--
+      <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create" />
+      <property name="javax.persistence.schema-generation.scripts.create-target" value="META-INF/schema.sql" />
+      <property name="javax.persistence.schema-generation.scripts.drop-target" value="META-INF/drop.sql" />
+      <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql" />
+      <property name="javax.persistence.sql.load-script-source" value="META-INF/data.sql" />
+      -->
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />-->
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>
