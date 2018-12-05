@@ -5,6 +5,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -38,5 +39,7 @@ public class MessageRepository {
                                   .setMaxResults(PAGE_SIZE);
     List<Message> resultList = query.getResultList();
     return unmodifiableSortedSet(new TreeSet<>(resultList));
+
   }
+
 }
